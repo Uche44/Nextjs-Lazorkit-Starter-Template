@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: oklch(0.13 0.02 280);
+  --foreground: oklch(0.95 0.01 280);
+  --card: oklch(0.16 0.025 280);
+  --card-foreground: oklch(0.95 0.01 280);
+  --primary: oklch(0.65 0.2 180);
+  --primary-foreground: oklch(0.13 0.02 280);
+  --secondary: oklch(0.22 0.03 280);
+  --muted: oklch(0.2 0.025 280);
+  --radius: 0.75rem;
+  --solana-purple:  oklch(0.55 0.25 300)
+  --solana-gradient: linear-gradient(
+    135deg,
+    oklch(0.65 0.2 180) 0%,
+    oklch(0.55 0.25 300) 100%
+  );
+}
+
+/* Dark mode override */
+.dark {
+  --background: oklch(0.13 0.02 280);
+  --foreground: oklch(0.95 0.01 280);
+  --card: oklch(0.16 0.025 280);
+  --primary: oklch(0.65 0.2 180);
+  --primary-foreground: oklch(0.13 0.02 280);
+}
+
+/* Basic utility classes */
+.text-color {
+  color: var(--primary);
+}
+.text-foreground {
+  color: var(--foreground);
+}
+.bg-card {
+  background-color: var(--card);
+}
+.text-card-foreground {
+  color: var(--card-foreground);
+}
+.bg-primary {
+  background-color: var(--primary);
+}
+.text-primary-foreground {
+  color: var(--primary-foreground);
+}
+.bg-secondary {
+  background-color: var(--secondary);
+}
+.bg-muted {
+  background-color: var(--muted);
+}
+.rounded {
+  border-radius: var(--radius);
+}
+.gradient-solanagreen {
+  background: var(--solana-gradient);
+}
+.text-solanagreen {
+  color: var(--solana-gradient);
+}
+.border-purple{
+    border-color: var(--solana-purple);
+}
