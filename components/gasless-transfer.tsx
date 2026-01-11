@@ -11,7 +11,6 @@ export function GaslessTransfer() {
     useWallet();
   const [loading, setLoading] = useState(false);
 
-  console.log("wallet addy:", smartWalletPubkey?.toBase58());
   const handleSend = async () => {
     if (!smartWalletPubkey) {
       alert("Wallet not connected");
@@ -23,21 +22,45 @@ export function GaslessTransfer() {
 
       // 1. Create the transfer instruction
       const destination = new PublicKey(DEMO_RECIPIENT);
+      const amount = 0.00002 * LAMPORTS_PER_SOL;
       const instruction = SystemProgram.transfer({
         fromPubkey: smartWalletPubkey,
         toPubkey: destination,
-        lamports: 0.00002 * LAMPORTS_PER_SOL,
+        lamports: amount,
       });
 
       // 2. Sign and send the transaction (gasless via paymaster)
       const signature = await signAndSendTransaction({
         instructions: [instruction],
-        // transactionOptions: {
-        //   feeToken: "USDC", // Pay gas in USDC instead of SOL
-        // },
       });
 
       console.log("Transaction signature:", signature);
+
+      // 3. Save transaction to database
+      try {
+        const response = await fetch('/api/transactions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            signature,
+            type: 'TRANSFER',
+            amount: amount.toString(),
+            recipient: DEMO_RECIPIENT,
+            status: 'SUCCESS',
+          }),
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          console.error('Failed to save transaction to database');
+        }
+      } catch (dbError) {
+        console.error('Database error:', dbError);
+        // Don't fail the whole transaction if DB save fails
+      }
+
       alert(`Transaction sent! Signature: ${signature}`);
     } catch (err) {
       console.error(err);

@@ -16,8 +16,8 @@ export default function Providers({
 }: Readonly<{ children: React.ReactNode }>) {
   if (typeof window !== "undefined") {
     // ensure Buffer is available in the browser runtime
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    // @ts-ignore
+   
+    // eslint-disable-next-line react-hooks/immutability, @typescript-eslint/no-require-imports
     window.Buffer = window.Buffer || require("buffer").Buffer;
   }
 

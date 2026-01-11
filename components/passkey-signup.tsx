@@ -4,7 +4,9 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export function ConnectButton() {
-  const { connect, disconnect, isConnected, isConnecting, wallet } =
+  // const { connect, disconnect, isConnected, isConnecting, wallet } =
+  //   useWallet();
+   const { connect, isConnected, isConnecting, wallet } =
     useWallet();
   const router = useRouter();
 
