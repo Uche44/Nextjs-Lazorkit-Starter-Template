@@ -37,14 +37,17 @@ export default function LoginPage() {
           setLoading(true);
 
           // Convert signature to base64 string
-          let signatureBase64: string;
-          if (result.signature instanceof Uint8Array) {
-            signatureBase64 = Buffer.from(result.signature).toString('base64');
-          } else if (typeof result.signature === 'string') {
-            signatureBase64 = result.signature;
-          } else {
-            throw new Error('Unexpected signature format');
-          }
+          // let signatureBase64: string;
+          // if (typeof result.signature === 'object' && result.signature instanceof Uint8Array) {
+          //   signatureBase64 = Buffer.from(result.signature).toString('base64');
+          // } else if (typeof result.signature === 'string') {
+          //   signatureBase64 = result.signature;
+          // } else {
+          //   throw new Error('Unexpected signature format');
+          // }
+
+          // Convert signature to base64 string
+          const signatureBase64 = Buffer.from(result.signature as unknown as Uint8Array).toString('base64');
 
           // Send to backend for verification
           await login(smartWalletPubkey.toBase58(), message, signatureBase64);
