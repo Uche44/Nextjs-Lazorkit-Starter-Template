@@ -20,24 +20,34 @@ export default function LoginPage() {
     }
   }, [user, router]);
 
-  // Handle login after wallet connection
-  useEffect(() => {
+
+ useEffect(() => {
     const handleLogin = async () => {
       if (isConnected && smartWalletPubkey && !user && !loading && !waitingForSignature) {
         try {
           setWaitingForSignature(true);
           setError(null);
 
-          // Generate authentication message
-          const message = `Sign this message to authenticate with LazorKit\n\nWallet: ${smartWalletPubkey.toBase58()}\nTimestamp: ${new Date().toISOString()}\nNonce: ${Math.random().toString(36).substring(7)}`;
+          // Generate authentication message (simpler format)
+          const message = `Sign this message to authenticate with LazorKit\nWallet: ${smartWalletPubkey.toBase58()}\nTimestamp: ${Date.now()}`;
 
           // Request signature
           const result = await signMessage(message);
 
           setLoading(true);
 
+          // Convert signature to base64 string
+          let signatureBase64: string;
+          if (result.signature instanceof Uint8Array) {
+            signatureBase64 = Buffer.from(result.signature).toString('base64');
+          } else if (typeof result.signature === 'string') {
+            signatureBase64 = result.signature;
+          } else {
+            throw new Error('Unexpected signature format');
+          }
+
           // Send to backend for verification
-          await login(smartWalletPubkey.toBase58(), message, result.signature);
+          await login(smartWalletPubkey.toBase58(), message, signatureBase64);
 
           // Redirect to dashboard
           router.push("/dashboard");
@@ -54,6 +64,42 @@ export default function LoginPage() {
 
     handleLogin();
   }, [isConnected, smartWalletPubkey, user, signMessage, login, router, loading, waitingForSignature, disconnect]);
+
+
+  // Handle login after wallet connection
+  // useEffect(() => {
+  //   const handleLogin = async () => {
+  //     if (isConnected && smartWalletPubkey && !user && !loading && !waitingForSignature) {
+  //       try {
+  //         setWaitingForSignature(true);
+  //         setError(null);
+
+  //         // Generate authentication message
+  //         const message = `Sign this message to authenticate with LazorKit\n\nWallet: ${smartWalletPubkey.toBase58()}\nTimestamp: ${new Date().toISOString()}\nNonce: ${Math.random().toString(36).substring(7)}`;
+
+  //         // Request signature
+  //         const result = await signMessage(message);
+
+  //         setLoading(true);
+
+  //         // Send to backend for verification
+  //         await login(smartWalletPubkey.toBase58(), message, result.signature);
+
+  //         // Redirect to dashboard
+  //         router.push("/dashboard");
+  //       } catch (err) {
+  //         console.error("Login failed:", err);
+  //         setError(err instanceof Error ? err.message : "Login failed");
+  //         setLoading(false);
+  //         setWaitingForSignature(false);
+  //         // Disconnect on error
+  //         await disconnect();
+  //       }
+  //     }
+  //   };
+
+  //   handleLogin();
+  // }, [isConnected, smartWalletPubkey, user, signMessage, login, router, loading, waitingForSignature, disconnect]);
 
   const handleConnect = async () => {
     try {
