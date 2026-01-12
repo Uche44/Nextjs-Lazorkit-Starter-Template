@@ -90,7 +90,7 @@ export async function PUT(request: NextRequest) {
     const { name, email } = body;
 
     // Update user profile
-    const user = await prisma.user.update({
+    const user = await prisma.users.update({
       where: { id: payload.userId },
       data: {
         ...(name !== undefined && { name }),

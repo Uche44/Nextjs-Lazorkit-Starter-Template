@@ -24,13 +24,13 @@ model Transaction {
 }
 
 model users {
-  id                 String        @id
+  id                 String        @id @default(uuid())
   smartWalletAddress String        @unique
   passkeyId          String?
   name               String?
   email              String?
   createdAt          DateTime      @default(now())
-  updatedAt          DateTime
+  updatedAt          DateTime      @updatedAt
   transactions       Transaction[]
 }
 

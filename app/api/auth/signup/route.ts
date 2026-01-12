@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.users.findUnique({
       where: { smartWalletAddress },
     });
 
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create new user
-    const user = await prisma.user.create({
+    const user = await prisma.users.create({
       data: {
         smartWalletAddress,
         passkeyId,
