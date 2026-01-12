@@ -220,12 +220,13 @@ export default function LoginPage() {
           console.log('Signature type:', typeof result.signature);
           console.log('Signature (first 50 chars):', result.signature.substring(0, 50));
           console.log('Signature length:', result.signature.length);
+          console.log('Signed Payload:', result.signedPayload);
           console.log('=== End Debug ===');
 
           setLoading(true);
 
           // Send signature as-is (it's already a string from LazorKit)
-          await login(smartWalletPubkey.toBase58(), message, result.signature);
+          await login(smartWalletPubkey.toBase58(), message, result.signature, result.signedPayload );
 
           // Redirect to dashboard
           router.push("/dashboard");

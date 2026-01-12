@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     console.log('DATABASE_URL exists:', !!process.env.DATABASE_URL);
     
     const body = await request.json();
-    const { smartWalletAddress, message, signature } = body;
+    const { smartWalletAddress, message, signature, signedPayload } = body;
 
     console.log('Wallet address:', smartWalletAddress);
     console.log('Message length:', message?.length);
@@ -39,8 +39,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify signature
-    console.log('Starting signature verification...');
-    const isValid = verifySignature(message, signature, smartWalletAddress);
+    const messageToVerify = signedPayload || message;
+
+
+    console.log('=== Login API Debug ===');
+    console.log('Using message:', messageToVerify);
+    console.log('Original message:', message);
+    console.log('Signed payload:', signedPayload);
+    console.log('=== End Debug ===');
+
+    const isValid = verifySignature(messageToVerify, signature, smartWalletAddress);
     console.log('Signature verification result:', isValid);
     
     if (!isValid) {
@@ -92,7 +100,7 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax' as const,
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24 * 7, 
       path: '/',
     };
     

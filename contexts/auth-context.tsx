@@ -13,7 +13,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  login: (walletAddress: string, message: string, signature: string) => Promise<void>;
+  login: (walletAddress: string, message: string, signature: string, signedPayload: string) => Promise<void>;
   signup: (data: SignupData) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
@@ -81,7 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const login = async (walletAddress: string, message: string, signature: string) => {
+  const login = async (walletAddress: string, message: string, signature: string, signedPayload: string) => {
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -92,6 +92,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           smartWalletAddress: walletAddress,
           message,
           signature,
+          signedPayload,
         }),
         credentials: 'include',
       });
