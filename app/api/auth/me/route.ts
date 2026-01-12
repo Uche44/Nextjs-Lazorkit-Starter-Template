@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
     console.log('Token valid, fetching user:', payload.userId);
 
     // Fetch user from database
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
       where: { id: payload.userId },
       select: {
         id: true,

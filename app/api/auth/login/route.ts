@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
 
     // Check if user exists
     console.log('Checking if user exists in database...');
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
       where: { smartWalletAddress },
     });
 
