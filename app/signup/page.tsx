@@ -60,7 +60,7 @@ export default function SignupPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50 p-6">
+    <main className="min-h-screen flex items-center justify-center bg-black p-6">
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -77,7 +77,7 @@ export default function SignupPage() {
           </div>
         )}
 
-        <div className="space-y-4 mb-6">
+        <div className="space-y-4 mb-6 ">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
               Name (Optional)
@@ -112,7 +112,7 @@ export default function SignupPage() {
         <button
           onClick={handleConnect}
           disabled={isConnecting || loading}
-          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+          className="w-full bg-gradient-to-r from-green-700 to-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-green-700 hover:to-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
         >
           {isConnecting || loading
             ? "Creating passkey..."
@@ -124,18 +124,18 @@ export default function SignupPage() {
             Already have an account?{" "}
             <a
               href="/login"
-              className="text-purple-600 hover:text-purple-700 font-medium"
+              className="text-color hover:text-green-700 font-medium"
             >
               Sign in
             </a>
           </p>
         </div>
 
-        <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-          <h3 className="text-sm font-semibold text-blue-900 mb-2">
+        <div className="mt-8 p-4 bg-blue-50 rounded-lg bg-gradient-to-br from-green-50 to-green-50">
+          <h3 className="text-sm font-semibold text-green-900 mb-2">
             What is a passkey?
           </h3>
-          <p className="text-xs text-blue-800">
+          <p className="text-xs text-green-800">
             Passkeys use your device&apos;s biometric authentication (fingerprint, Face ID, etc.) 
             to create a secure smart wallet. No seed phrases to remember!
           </p>

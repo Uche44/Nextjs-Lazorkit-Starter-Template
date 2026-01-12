@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
@@ -13,43 +7,33 @@ datasource db {
   provider = "postgresql"
 }
 
-
-// User model for authentication
-model User {
-  id                  String        @id @default(uuid())
-  smartWalletAddress  String        @unique
-  passkeyId           String?
-  name                String?
-  email               String?
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
-  
-  // Relations
-  transactions        Transaction[]
-  
-  @@map("users")
-}
-
-// Transaction model for storing user transactions
 model Transaction {
-  id          String            @id @default(uuid())
-  userId      String
-  signature   String            @unique
-  type        TransactionType   @default(TRANSFER)
-  amount      BigInt            // Amount in lamports
-  recipient   String
-  status      TransactionStatus @default(PENDING)
-  createdAt   DateTime          @default(now())
-  
-  // Relations
-  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id        String            @id @default(uuid())
+  userId    String
+  signature String            @unique
+  type      TransactionType   @default(TRANSFER)
+  amount    BigInt
+  recipient String
+  status    TransactionStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  users     users             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@index([userId])
   @@index([createdAt])
   @@map("transactions")
 }
 
-// Enums
+model users {
+  id                 String        @id
+  smartWalletAddress String        @unique
+  passkeyId          String?
+  name               String?
+  email              String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime
+  transactions       Transaction[]
+}
+
 enum TransactionType {
   TRANSFER
   SWAP

@@ -1,6 +1,8 @@
-# LazorKit Authentication System - Setup Guide
+# LazorKit Next.js Authentication Template
 
-This project implements a complete authentication system using LazorKit passkeys, Next.js, Prisma ORM, and PostgreSQL.
+A production-ready Next.js template for Web3 authentication using LazorKit passkeys, complete with database persistence and session management.
+
+> **Perfect for**: Web3 developers who want to add secure, passwordless authentication to their Solana dApps without building from scratch.
 
 ## Features
 
@@ -10,24 +12,33 @@ This project implements a complete authentication system using LazorKit passkeys
 - 💾 **Data Persistence**: All user data and transactions stored in PostgreSQL
 - 🎯 **Protected Routes**: Server-side authentication checks
 - 📊 **Transaction History**: Track all gasless transfers
+- 🚀 **Production Ready**: Clean code, no debug logs, fully typed with TypeScript
 
 ## Prerequisites
 
 - Node.js 18+ installed
-- PostgreSQL database (local or hosted)
+- PostgreSQL database (local or hosted - see setup options below)
 - npm or yarn package manager
 
 ## Quick Start
 
-### 1. Install Dependencies
+### 1. Clone and Install
 
 ```bash
+git clone <your-repo-url>
+cd lazorkit
 npm install
 ```
 
 ### 2. Set Up Environment Variables
 
-Create a `.env.local` file in the root directory:
+Copy the example environment file and configure it:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your actual values:
 
 ```env
 # Database Connection
@@ -40,7 +51,14 @@ JWT_SECRET="your-super-secret-jwt-key-min-32-characters-long"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
-**Important**: Replace the DATABASE_URL with your actual PostgreSQL connection string.
+**Generate a secure JWT secret:**
+```bash
+# On Linux/Mac
+openssl rand -base64 32
+
+# Or use Node.js
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
 
 ### 3. Run Database Migrations
 
@@ -71,7 +89,7 @@ Install PostgreSQL locally and create a database:
 
 ```bash
 # Create database
-createdb lazorkit
+CREATE DATABASE lazorkit;
 
 # Your DATABASE_URL will be:
 DATABASE_URL="postgresql://your_username:your_password@localhost:5432/lazorkit"
@@ -242,6 +260,139 @@ npx prisma migrate reset
 - [Prisma Documentation](https://www.prisma.io/docs)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Solana Documentation](https://docs.solana.com)
+
+## Customization Guide
+
+### Branding
+
+1. **Update App Name**: Search and replace "LazorKit" with your app name in:
+   - `README.md`
+   - `package.json` (name field)
+   - `app/login/page.tsx` and `app/signup/page.tsx` (UI text)
+   - `lib/auth.ts` (authentication message)
+
+2. **Styling**: Modify Tailwind classes in components to match your brand colors
+   - Primary color: `purple-600` → your brand color
+   - Gradients: Update in login/signup pages
+
+### Database Schema
+
+To add custom fields to the User model:
+
+1. Edit `prisma/schema.prisma`:
+```prisma
+model User {
+  // ... existing fields
+  bio         String?
+  avatar      String?
+  // Add your custom fields
+}
+```
+
+2. Create and run migration:
+```bash
+npx prisma migrate dev --name add_custom_fields
+```
+
+### Adding New Features
+
+**Example: Add user profile page**
+
+1. Create API route: `app/api/user/profile/route.ts`
+2. Create page: `app/profile/page.tsx`
+3. Use `ProtectedRoute` component for authentication
+4. Access user via `useAuth()` hook
+
+## Deployment
+
+### Deploy to Vercel (Recommended)
+
+1. **Push to GitHub**:
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin <your-repo-url>
+git push -u origin main
+```
+
+2. **Deploy on Vercel**:
+   - Go to [vercel.com](https://vercel.com)
+   - Import your GitHub repository
+   - Add environment variables:
+     - `DATABASE_URL`
+     - `JWT_SECRET`
+     - `NEXT_PUBLIC_APP_URL` (your Vercel URL)
+   - Deploy!
+
+3. **Run migrations on production**:
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Run migration
+vercel env pull .env.production
+npx prisma migrate deploy
+```
+
+### Deploy to Other Platforms
+
+**Railway**:
+- Connect GitHub repo
+- Add PostgreSQL addon (auto-sets DATABASE_URL)
+- Add JWT_SECRET environment variable
+- Deploy automatically
+
+**Netlify**:
+- Connect GitHub repo
+- Set build command: `npm run build`
+- Add environment variables
+- Deploy
+
+### Environment Variables for Production
+
+Ensure these are set in your deployment platform:
+
+```env
+DATABASE_URL="your-production-postgres-url"
+JWT_SECRET="your-production-jwt-secret"
+NEXT_PUBLIC_APP_URL="https://your-domain.com"
+NODE_ENV="production"
+```
+
+## Common Customizations
+
+### Change Session Duration
+
+Edit `lib/auth.ts`:
+```typescript
+const JWT_EXPIRES_IN = '30d'; // Change from '7d' to your preference
+```
+
+And `app/api/auth/login/route.ts`:
+```typescript
+maxAge: 60 * 60 * 24 * 30, // 30 days instead of 7
+```
+
+### Add Email Verification
+
+1. Add `emailVerified` field to User model
+2. Create verification token system
+3. Send verification emails (use Resend, SendGrid, etc.)
+4. Add verification check in protected routes
+
+### Switch to Different Blockchain
+
+To use a different blockchain (e.g., Ethereum):
+
+1. Replace `@solana/web3.js` with your blockchain SDK
+2. Update signature verification in `lib/auth.ts`
+3. Modify wallet connection in `providers/wallet-provider.tsx`
+4. Update LazorKit configuration if supported
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 

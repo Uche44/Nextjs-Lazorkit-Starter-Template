@@ -1,7 +1,13 @@
 {
-  "name": "lazorkit",
-  "version": "0.1.0",
-  "private": true,
+  "name": "lazorkit-nextjs-auth-template",
+  "version": "1.0.0",
+  "description": "Production-ready Next.js template for Web3 authentication using LazorKit passkeys with PostgreSQL and Prisma ORM",
+  "private": false,
+  "keywords": ["nextjs", "web3", "authentication", "lazorkit", "passkey", "solana", "prisma", "template"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/lazorkit-nextjs-auth-template"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
