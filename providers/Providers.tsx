@@ -22,7 +22,7 @@ export default function Providers({
   }
 
   return (
-    <LazorkitProvider
+    <LazorkitProvider 
       rpcUrl={CONFIG.RPC_URL}
       portalUrl={CONFIG.PORTAL_URL}
       paymasterConfig={CONFIG.PAYMASTER}

@@ -244,7 +244,7 @@ export function verifySignature(
         try {
           signatureBytes = Buffer.from(signature, 'hex');
           console.log('Decoded as hex, length:', signatureBytes.length);
-        } catch (e3) {
+        } catch (err) {
           console.error('Failed to decode signature in any format');
           return false;
         }
