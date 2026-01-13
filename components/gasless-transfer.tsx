@@ -1,3 +1,5 @@
+// This component demonstrates gasless SOL transfers using Lazorkit smart wallets. Users authorize transfers via passkeys while the application sponsors transaction fees, removing the need for users to hold SOL
+
 "use client";
 
 import { useState } from "react";

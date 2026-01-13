@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lazorkit-Solana-Starter",
+  title: "LazorKit-Solana-Auth-Template",
   description:
-    "A Nextjs starter template for building seamless ux on solana apps",
+    "A Nextjs starter template for building seamless onboarding experience on solana apps with LazorKit",
 };
 
 export default function RootLayout({

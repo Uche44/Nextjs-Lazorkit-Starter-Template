@@ -1,3 +1,6 @@
+
+// This component displays wallet information, including the smart wallet address and balance.
+
 "use client";
 
 import { useWallet } from "@lazorkit/wallet";

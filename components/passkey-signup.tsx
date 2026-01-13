@@ -1,11 +1,10 @@
-// ConnectButton.tsx
+// This component demonstrates passkey-based wallet onboarding with Lazorkit. Users authenticate using device passkeys to create or connect to a smart wallet without installing a third-party wallet or managing seed phrases.
+
 import { useWallet } from "@lazorkit/wallet";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export function ConnectButton() {
-  // const { connect, disconnect, isConnected, isConnecting, wallet } =
-  //   useWallet();
    const { connect, isConnected, isConnecting, wallet } =
     useWallet();
   const router = useRouter();
@@ -30,3 +29,6 @@ export function ConnectButton() {
     </button>
   );
 }
+
+
+

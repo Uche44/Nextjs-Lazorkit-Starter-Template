@@ -10,7 +10,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
-  const { isConnected, wallet, disconnect } = useWallet();
+  const { disconnect } = useWallet();
   const { user, logout } = useAuth();
   const router = useRouter();
 

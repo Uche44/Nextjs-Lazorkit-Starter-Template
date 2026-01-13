@@ -5,17 +5,8 @@ import { PublicKey } from '@solana/web3.js';
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('=== LOGIN REQUEST START ===');
-    console.log('Environment:', process.env.NODE_ENV);
-    console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
-    console.log('DATABASE_URL exists:', !!process.env.DATABASE_URL);
-    
     const body = await request.json();
     const { smartWalletAddress, message, signature, signedPayload } = body;
-
-    console.log('Wallet address:', smartWalletAddress);
-    console.log('Message length:', message?.length);
-    console.log('Signature length:', signature?.length);
 
     // Validate required fields
     if (!smartWalletAddress || !message || !signature) {
@@ -29,7 +20,6 @@ export async function POST(request: NextRequest) {
     // Validate wallet address format
     try {
       new PublicKey(smartWalletAddress);
-      console.log('Wallet address format valid');
     } catch (error) {
       console.log('Invalid wallet address format:', error);
       return NextResponse.json(
@@ -39,14 +29,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify signature
-    // const messageToVerify = signedPayload || message;
+    
 
      const isValidFormat = validateLazorkitSignature(signature, signedPayload);
-
-    console.log('=== Login API Debug ===');
-    console.log('Original message:', message);
-    console.log('Signed payload:', signedPayload);
-    console.log('=== End Debug ===');
 
  if (!isValidFormat) {
       return NextResponse.json(
@@ -55,19 +40,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // const isValid = verifySignature(messageToVerify, signature, smartWalletAddress);
-    // console.log('Signature verification result:', isValid);
-    
-    // if (!isValid) {
-    //   console.log('Signature verification failed - returning 401');
-    //   return NextResponse.json(
-    //     { error: 'Invalid signature' },
-    //     { status: 401 }
-    //   );
-    // }
 
     // Check if user exists
-    console.log('Checking if user exists in database...');
     const user = await prisma.users.findUnique({
       where: { smartWalletAddress },
     });
@@ -80,12 +54,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('User found:', user.id);
-
     // Generate JWT token
-    console.log('Generating JWT token...');
     const token = generateToken(user.id, user.smartWalletAddress);
-    console.log('Token generated, length:', token.length);
 
     // Create response with user data
     const response = NextResponse.json(
@@ -111,13 +81,10 @@ export async function POST(request: NextRequest) {
       path: '/',
     };
     
-    console.log('Setting cookie with options:', cookieOptions);
     response.cookies.set('auth-token', token, cookieOptions);
 
-    console.log('=== LOGIN REQUEST SUCCESS ===');
     return response;
   } catch (error) {
-    console.error('=== LOGIN ERROR ===');
     console.error('Error details:', error);
     console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
     return NextResponse.json(

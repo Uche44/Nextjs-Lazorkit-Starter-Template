@@ -44,3 +44,5 @@ next-env.d.ts
 /app/generated/prisma
 
 /lib/generated/prisma
+
+TEMPLATE_ASSESSMENT.md

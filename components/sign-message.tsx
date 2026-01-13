@@ -1,3 +1,7 @@
+// This component demonstrates off-chain message signing with Lazorkit.
+// Users sign messages using passkeys to prove smart wallet ownership
+// without submitting an on-chain transaction.
+
 "use client";
 
 import { useState } from "react";

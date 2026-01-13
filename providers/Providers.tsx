@@ -15,8 +15,11 @@ export default function Providers({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   if (typeof window !== "undefined") {
-    // ensure Buffer is available in the browser runtime
-   
+     // Polyfill Node.js Buffer for browser environments.
+  // Some Solana and crypto dependencies expect Buffer to be available,
+  // but it is not defined in the browser by default.
+  // This ensures compatibility without affecting server-side execution.
+  
     // eslint-disable-next-line react-hooks/immutability, @typescript-eslint/no-require-imports
     window.Buffer = window.Buffer || require("buffer").Buffer;
   }
