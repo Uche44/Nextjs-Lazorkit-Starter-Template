@@ -6,13 +6,13 @@ A production-ready Next.js template for Web3 authentication using LazorKit passk
 
 ## Features
 
-- ✨ **Passkey Authentication**: WebAuthn-based signup with biometric authentication
-- 🔐 **Message Signing Login**: Cryptographic signature verification for secure login
-- 🍪 **Session Management**: JWT tokens stored in httpOnly cookies
-- 💾 **Data Persistence**: All user data and transactions stored in PostgreSQL
-- 🎯 **Protected Routes**: Server-side authentication checks
-- 📊 **Transaction History**: Track all gasless transfers
-- 🚀 **Production Ready**: Clean code, no debug logs, fully typed with TypeScript
+-  **Passkey Authentication**: WebAuthn-based signup with biometric authentication
+-  **Message Signing Login**: Cryptographic signature verification for secure login
+-  **Session Management**: JWT tokens stored in httpOnly cookies
+-  **Data Persistence**: All user data and transactions stored in PostgreSQL
+-  **Protected Routes**: Server-side authentication checks
+   **Transaction History**: Track all gasless transfers
+-  **Production Ready**: Clean code, no debug logs, fully typed with TypeScript
 
 ## Prerequisites
 
