@@ -115,7 +115,7 @@ export default function SignupPage() {
           className="w-full bg-gradient-to-r from-green-700 to-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-green-700 hover:to-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
         >
           {isConnecting || loading
-            ? "Creating passkey..."
+            ? "Creating account..."
             : "Create account with passkey"}
         </button>
 
